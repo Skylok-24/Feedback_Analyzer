@@ -1,12 +1,14 @@
 from flask import Flask ,request , render_template
 from EmotionDetection.emotion_detection import emotion_detector
 
-app = Flask(__name__)
+app = Flask("Emotion Detector app")
 
 @app.route("/emotionDetector")
 def emotion_detect() :
     text_analyzer = request.args.get("textToAnalyze")
     response = emotion_detector(text_analyzer)
+    if not response['dominant_emotion'] :
+        return "Invalid text Please try again!."
     anger = response['anger']
     disgust = response['disgust']
     fear = response['fear']
